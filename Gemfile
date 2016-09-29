@@ -11,6 +11,8 @@ RAILS_VERS = case ENV['RAILS_VERS']
                '~>4.1.9'
              when '4.2'
                '~>4.2.0'
+             when '5.0'
+               '~>5.0.0'
              when nil
                nil
              else
@@ -26,7 +28,9 @@ group :development, :test do
   when 'mongo_mapper'
     gem 'mongo_mapper', '>= 0.13.1'
   when 'mongoid'
-    if ENV['RAILS_VERS'] =~ /^4\.\d/
+    if ENV['RAILS_VERS'] =~ /^5\.\d/
+      gem 'mongoid', '>= 6.0.0'
+    elsif ENV['RAILS_VERS'] =~ /^4\.\d/
       gem 'mongoid', '>= 4.0.2'
     elsif ENV['RAILS_VERS'] =~ /^3\.2\d/
       gem 'mongoid', '>= 3.1.0'

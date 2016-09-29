@@ -10,6 +10,13 @@ module ActionDispatch
         include Mongoid::Document
         include Mongoid::Timestamps
 
+        # field :enabled, type: Mongoid::Boolean, default: true
+        # scope :enabled,   -> { where(enabled: true) }
+        # scope :disabled,  -> { where(enabled: false) }
+        # default_scope -> {
+        #   enabled
+        # }
+
         store_in :collection => MongoSessionStore.collection_name
 
         if Mongoid::Fields::Validators::Macro::OPTIONS.include? :overwrite
@@ -18,6 +25,7 @@ module ActionDispatch
           field :_id, :type => String
         end
         field :data, :type => BINARY_CLASS, :default => -> { marshaled_binary({}) }
+        # attr_accessible :_id, :data, :enabled if respond_to?(:attr_accessible)
         attr_accessible :_id, :data if respond_to?(:attr_accessible)
 
         def marshaled_binary(data)
@@ -31,7 +39,21 @@ module ActionDispatch
             Moped::BSON::Binary.new(:generic, Marshal.dump(data))
           end
         end
+
+        # def destroy(_destroy = false)
+        #   if _destroy
+        #     super
+        #   else
+        #     self.enabled = false
+        #     self.save
+        #   end
+        # end
+        #
+        # def destroy!
+        #   destroy(true)
+        # end
       end
+
 
       private
       def pack(data)
