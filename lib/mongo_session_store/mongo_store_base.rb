@@ -49,8 +49,8 @@ module ActionDispatch
         end
 
 
-        def find_or_initialize_session(id)
-          session = (id && session_class.where(:_id => id).first) || session_class.new(:_id => generate_sid)
+        def find_or_initialize_session(sid)
+          session = (sid && session_class.where(:_id => sid).first) || session_class.new(:_id => generate_sid)
           [session._id, session]
         end
 
@@ -62,9 +62,17 @@ module ActionDispatch
           [sid, env[SESSION_RECORD_KEY]]
         end
 
-        def destroy_session(env, session_id, options)
-          destroy(env)
-          generate_sid unless options[:drop]
+        def delete_session(env, sid, options)
+          destroy_session(env, sid, options)
+        end
+
+        def destroy_session(env, sid, options)
+          unless options[:renew]
+            destroy(env)
+            generate_sid if !options[:drop] or options[:renew]
+          else
+            sid
+          end
         end
 
         def destroy(env)
