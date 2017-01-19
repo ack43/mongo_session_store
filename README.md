@@ -62,6 +62,8 @@ MongoStore::Session.where('updated_at' => { '$gt' => 2.days.ago })
 
 ## Changelog
 
+7.0.0.1 debug code cleared
+
 7.0.0 supports Rails 5.0.
 
 6.0.0 supports the Mongo Ruby Driver 2.0 for the generic MongoStore. The other stores are unchanged. Tests added for Rails 4.2. Tests against MongoDB 3.0.1 on Travis CI.
