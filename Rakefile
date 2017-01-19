@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'rake'
 require 'bundler'
-Bundler::GemHelper.install_tasks :name => 'mongo_session_store-rails4'
+Bundler::GemHelper.install_tasks :name => 'mongo_session_store-rails5'
 
 def run_with_output(command)
   puts "Running: #{command}"
@@ -20,12 +20,12 @@ def set_versions(rails_vers, orm)
   success
 end
 
-@rails_versions = ['3.1', '3.2', '4.0', '4.1', '4.2']
+@rails_versions = ['5.0']
 @orms = ['mongo_mapper', 'mongoid', 'mongo']
 
 task :default => :test_all
 
-desc 'Test each session store against Rails 3.1, 3.2, 4.0, 4.1, and 4.2'
+desc 'Test each session store against Rails 5.0'
 task :test_all do
   # inspired by http://pivotallabs.com/users/jdean/blog/articles/1728-testing-your-gem-against-multiple-rubies-and-rails-versions-with-rvm
 
