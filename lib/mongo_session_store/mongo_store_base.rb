@@ -26,19 +26,19 @@ module ActionDispatch
         end
 
         def get_session(env, sid)
-          puts "get_session #{sid}"
+          # puts "get_session #{sid}"
           sid, record = find_or_initialize_session(sid)
           env[SESSION_RECORD_KEY] = record
           [sid, unpack(record.data)]
         end
 
         def find_session(env, sid)
-          puts "find_session #{sid}"
+          # puts "find_session #{sid}"
           get_session(env, sid)
         end
 
         def set_session(env, sid, session_data, options = {})
-          puts "set_session #{sid}"
+          # puts "set_session #{sid}"
           id, record = get_session_record(env, sid)
           record.data = pack(session_data)
           # Rack spec dictates that set_session should return true or false
@@ -48,20 +48,20 @@ module ActionDispatch
         end
 
         def write_session(env, sid, session_data, options = {})
-          puts "write_session #{sid}"
-          puts "write #{session_data.inspect}"
+          # puts "write_session #{sid}"
+          # puts "write #{session_data.inspect}"
           set_session(env, sid, session_data, options)
         end
 
 
         def find_or_initialize_session(sid)
-          puts "find_or_initialize_session #{sid}"
+          # puts "find_or_initialize_session #{sid}"
           session = (sid && session_class.where(:_id => sid).first) || session_class.new(:_id => generate_sid)
           [session._id, session]
         end
 
         def get_session_record(env, sid)
-          puts "get_session_record #{sid}"
+          # puts "get_session_record #{sid}"
           if env.env[ENV_SESSION_OPTIONS_KEY][:id].nil? || !env[SESSION_RECORD_KEY]
             sid, env[SESSION_RECORD_KEY] = find_or_initialize_session(sid)
           end
@@ -70,12 +70,12 @@ module ActionDispatch
         end
 
         def delete_session(env, sid, options)
-          puts "delete_session #{sid}"
+          # puts "delete_session #{sid}"
           destroy_session(env, sid, options)
         end
 
         def destroy_session(env, sid, options)
-          puts "destroy_session #{sid} #{current_session_id(env)}"
+          # puts "destroy_session #{sid} #{current_session_id(env)}"
           unless options[:renew]
             destroy(env)
             generate_sid if !options[:drop] or options[:renew]
